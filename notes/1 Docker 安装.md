@@ -86,5 +86,18 @@ uses Hyper-V to virtualize the Docker Engine environment and Linux kernel-specif
 
 ## 设置镜像 ##
 
+## 挂载本地目录 ##
+	docker run -it -v /home/dock/Downloads:/usr/Downloads ubuntu64 /bin/bash
+	通过-v 参数，冒号前为宿主机目录，必须为绝对路径，冒号后为挂载路径。默认的权限为读写，如果指定为只读可以用（：ro）
+
+	docker还提供了一种高级的用法。叫数据卷。
+	数据卷：“其实就是一个正常的容器，专门用来提供数据卷供其它容器挂载的”。感觉像是由一个容器定义的一个数据挂载信息。其他的容器启动可以直接挂载数据卷容器中定义的挂载信息。
+	docker run -v /home/dock/Downloads:/usr/Downloads  --name dataVol ubuntu64 /bin/bash
+	创建一个普通的容器。用--name给他指定了一个名（不指定的话会生成一个随机的名子）。
+	再创建一个新的容器，来使用这个数据卷。
+	docker run -it --volumes-from dataVol ubuntu64 /bin/bash
+	--volumes-from用来指定要从哪个数据卷来挂载数据。
+
 
 [https://docs.docker.com/docker-for-windows/](https://docs.docker.com/docker-for-windows/)
+[https://my.oschina.net/piorcn/blog/324202](https://my.oschina.net/piorcn/blog/324202)
